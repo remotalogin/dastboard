@@ -1,8 +1,7 @@
 {
   "name": "football-studio-dashboard",
   "version": "1.0.0",
-  "description": "Dashboard para monitorar o Football Studio",
-  "main": "index.html",
+  "private": true,
   "scripts": {
     "start": "vercel dev"
   },
