@@ -1,18 +1,18 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitor Football Studio</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Monitor Football Studio</h1>
-        <div id="results-container" class="results-container">
-            <p>Monitorando novos resultados...</p>
-        </div>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+import fetch from 'node-fetch';
+
+export default async (req, res) => {
+  try {
+    const response = await fetch('https://api.jogosvirtual.com/jsons/historico_baralho_footballstudio.json?' + Date.now());
+    const data = await response.json();
+    
+    // Configura os cabeçalhos para permitir CORS
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Content-Type', 'application/json');
+    
+    // Envia os dados da API original como resposta
+    res.status(200).send(data);
+
+  } catch (error) {
+    res.status(500).send({ error: 'Erro ao buscar dados da API externa.' });
+  }
+};
