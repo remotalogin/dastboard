@@ -9,7 +9,7 @@ const resultsContainer = document.getElementById('results-container');
 
 async function checarNovos() {
     try {
-        const response = await fetch('https://api.jogosvirtual.com/jsons/historico_baralho_footballstudio.json?' + Date.now());
+        const response = await fetch('/api/historico?' + Date.now());
         if (!response.ok) {
             throw new Error(`Erro de rede: ${response.status}`);
         }
@@ -24,7 +24,7 @@ async function checarNovos() {
         }
 
         const cartas = baralhos[ultimaSessao];
-        const novoValor = cartas[cartas.length - 1]; // último item do array
+        const novoValor = cartas[cartas.length - 1];
 
         if (novoValor !== ultimoValor) {
             ultimoValor = novoValor;
@@ -34,7 +34,6 @@ async function checarNovos() {
 
             const agora = new Date().toLocaleTimeString();
 
-            // Cria um novo elemento para o resultado
             const resultItem = document.createElement('div');
             resultItem.classList.add('result-item');
             resultItem.innerHTML = `
@@ -43,14 +42,12 @@ async function checarNovos() {
                 <span class="result-time">[${agora}]</span>
             `;
 
-            // Adiciona o novo resultado no topo da lista
             if (resultsContainer.firstChild) {
                 resultsContainer.insertBefore(resultItem, resultsContainer.firstChild);
             } else {
                 resultsContainer.appendChild(resultItem);
             }
 
-            // Remove o texto inicial
             if (resultsContainer.children.length > 1 && resultsContainer.querySelector('p')) {
                 resultsContainer.querySelector('p').remove();
             }
@@ -62,8 +59,5 @@ async function checarNovos() {
     }
 }
 
-// Checa a cada 3 segundos
 setInterval(checarNovos, 3000);
-
-// Inicia a verificação imediatamente ao carregar a página
 checarNovos();
